@@ -22,6 +22,20 @@ int fputc(int ch, FILE *stream)
 }
 #endif
 
+/*
+for循环实现延时us
+*/
+void delay_us(uint32_t nus)
+{
+    uint32_t Delay = nus * 168/4;
+    do
+    {
+        __NOP();
+    }
+    while (Delay --);
+}
+ 
+
 // S-Curve, 定義邏輯斯諦函數，並加入斜率 k 的參數
 double logistic_sigmoid(double x, double k) {
     return 1.0 / (1.0 + exp(-k * (x - 0.0))); // 這裡的 0.0 可以替換成中心位置 x_0
@@ -55,10 +69,10 @@ void printInfo()
         if (testBool)
         {
             testBool = false;
-            HAL_TIM_Base_Start_IT(&htim2);
-        } else {
-            testBool = true;
             HAL_TIM_Base_Stop_IT(&htim2);
+        } else {
+            HAL_TIM_Base_Start_IT(&htim2);
+            testBool = true;
         }
 
     } else if (testCase == 4) {

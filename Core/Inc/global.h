@@ -62,6 +62,7 @@ extern bool testBool;
 extern int testInt;
 extern int testCase;
 
+void delay_us(uint32_t nus);
 void printInfo(void);
 void setUserLED(LEDState);
 void toggleUserLED(void);
@@ -70,4 +71,3 @@ void toggleUserLED(void);
 char* printMotorState(MCI_State_t);
 void printMotorError(uint16_t);
 #endif
-
