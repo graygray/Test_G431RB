@@ -4,7 +4,7 @@
 int testCounter = 0;
 bool testBool = false;
 int testInt = 0;
-int testCase = 3;
+int testCase = 17;
 
 GPIO_PinState testPinState = GPIO_PIN_RESET;
 
@@ -43,7 +43,7 @@ double logistic_sigmoid(double x, double k) {
 
 void printInfo()
 {
-    xlog("%s:%d, ========================== \n\r", __func__, __LINE__);
+    xlog("%s:%d, ========================== %d\n\r", __func__, __LINE__, testCounter++);
 
     if (testCase == 0)
     {
@@ -51,11 +51,11 @@ void printInfo()
 
     } else if (testCase == 1) {
         // 1. Color sensor TCS3472
-        // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.   
+        // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.
 
     } else if (testCase == 2) {
         // 2. Brightness sensor BH1750
-        // >> 將 brightness 的 lux 值讀出，顯示於 LCD 上.  
+        // >> 將 brightness 的 lux 值讀出，顯示於 LCD 上.
 
     } else if (testCase == 3) {
 
@@ -142,6 +142,10 @@ void printInfo()
         // 4. 已實現 Modbus Slave Sampe 測試板，並與 ICDT MODBUS RTU Master 通訊正常。(7/3)
     } else if (testCase == 16) {
         // 16. FreeModbus - Master
+
+    } else if (testCase == 17) {
+        xlog("%s:%d BH1750_ReadLux:%.2f\n\r", __func__, __LINE__, BH1750_ReadLux());
+        
     } else if (testCase == 20) {
 
         // 測試邏輯斯諦函數，並指定斜率 k 的值
@@ -160,7 +164,6 @@ void printInfo()
         
     }
 
-    xlog("%s:%d, ========================== \n\r", __func__, __LINE__);
 }
 
 void setUserLED(LEDState state)
