@@ -4,7 +4,7 @@
 int testCounter = 0;
 bool testBool = false;
 int testInt = 0;
-int testCase = 17;
+int testCase = 3;
 
 GPIO_PinState testPinState = GPIO_PIN_RESET;
 
