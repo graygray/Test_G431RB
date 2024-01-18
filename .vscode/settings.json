@@ -6,6 +6,7 @@
         "math.h": "c",
         "main.h": "c",
         "stm32g4xx_hal_adc.h": "c",
-        "stm32g4xx_hal_i2c.h": "c"
+        "stm32g4xx_hal_i2c.h": "c",
+        "bh1750.h": "c"
     }
 }

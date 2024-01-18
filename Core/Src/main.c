@@ -112,8 +112,6 @@ int main(void)
 
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
 
-  HAL_UART_Receive_IT(&huart2, rx_buff, 12);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */

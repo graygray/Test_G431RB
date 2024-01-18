@@ -4,11 +4,11 @@
 int testCounter = 0;
 bool testBool = false;
 int testInt = 0;
-int testCase = 2;
-
-uint8_t rx_buff[12] = {0};
+int testCase = 1;
 
 GPIO_PinState testPinState = GPIO_PIN_RESET;
+
+uint8_t rx_buff[12] = {0};
 
 #ifdef __GNUC__
 int __io_putchar(int ch)
@@ -54,6 +54,11 @@ void printInfo()
     } else if (testCase == 1) {
         // 1. Color sensor TCS3472
         // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.
+
+        // uint16_t red, green, blue, clear;
+        // xlog("%s:%d, red:%d \n\r", __func__, __LINE__, red);
+        // xlog("%s:%d, green:%d \n\r", __func__, __LINE__, green);
+        // xlog("%s:%d, blue:%d \n\r", __func__, __LINE__, blue);
 
     } else if (testCase == 2) {
         // 2. Brightness sensor BH1750
