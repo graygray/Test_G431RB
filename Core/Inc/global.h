@@ -56,6 +56,7 @@ typedef enum
 } LEDState;
 
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern ADC_HandleTypeDef hadc1;
@@ -64,6 +65,8 @@ extern int testCounter;
 extern bool testBool;
 extern int testInt;
 extern int testCase;
+
+extern uint8_t rx_buff[12];
 
 void delay_us(uint32_t nus);
 void printInfo(void);

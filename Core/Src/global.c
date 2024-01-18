@@ -4,14 +4,16 @@
 int testCounter = 0;
 bool testBool = false;
 int testInt = 0;
-int testCase = 3;
+int testCase = 2;
+
+uint8_t rx_buff[12] = {0};
 
 GPIO_PinState testPinState = GPIO_PIN_RESET;
 
 #ifdef __GNUC__
 int __io_putchar(int ch)
 {
-    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+    HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xffff);
 	return ch;
 }
 #else
@@ -56,6 +58,7 @@ void printInfo()
     } else if (testCase == 2) {
         // 2. Brightness sensor BH1750
         // >> 將 brightness 的 lux 值讀出，顯示於 LCD 上.
+        xlog("%s:%d BH1750_ReadLux:%.2f\n\r", __func__, __LINE__, BH1750_ReadLux());
 
     } else if (testCase == 3) {
 
@@ -143,8 +146,7 @@ void printInfo()
     } else if (testCase == 16) {
         // 16. FreeModbus - Master
 
-    } else if (testCase == 17) {
-        xlog("%s:%d BH1750_ReadLux:%.2f\n\r", __func__, __LINE__, BH1750_ReadLux());
+    // } else if (testCase == 17) {
         
     } else if (testCase == 20) {
 

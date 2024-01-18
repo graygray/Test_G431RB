@@ -11,7 +11,6 @@
 BH1750_Data dataBH1750;
 
 void BH1750_Init(uint8_t mode, uint16_t address, I2C_HandleTypeDef* handle) {
-  dataBH1750;
   dataBH1750.s_mode_ = mode;
   dataBH1750.s_address_ = address << 1;
   dataBH1750.handle_ = handle;
