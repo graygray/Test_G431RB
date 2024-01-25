@@ -1,9 +1,7 @@
 
 #include "TCS3472.h"
-// #include <utils/time.h>
-// #include <utils/utils.h>
 
-#define returnNonOKHALStatus
+TCS3472 tcs3472;
 
 #ifdef TCS3472_DEBUG
 #define TCS3472_DEBUG_OUT(format, ...) printf("%s:%d: TCS3472: " format, __FILE__, __LINE__, ##__VA_ARGS__)
@@ -67,14 +65,12 @@ HAL_StatusTypeDef _TCS3472_init(TCS3472* tcs3472) {
   uint8_t id;
 
   ret = TCS3472_readId(tcs3472, &id);
-  // xlog("%s:%d, id:0x%X \n\r", __func__, __LINE__, id);
+  xlog("%s:%d, id:0x%X \n\r", __func__, __LINE__, id);
   if (ret != HAL_OK) {
-    xlog("%s:%d \n\r", __func__, __LINE__);
     return ret;
   }
 
   if (id != TCS3472_REG_ID_34721_34725 && id != TCS3472_REG_ID_34723_34727) {
-    xlog("%s:%d, invalid id \n\r", __func__, __LINE__);
     return HAL_ERROR;
   }
 
@@ -158,10 +154,6 @@ HAL_StatusTypeDef _TCS3472_write8bitReg(TCS3472* tcs3472, uint8_t reg, uint8_t v
   HAL_StatusTypeDef ret = HAL_ERROR;
   data[0] = TCS3472_REG_CMD_BIT | TCS3472_REG_CMD_TYPE_BYTE | reg;
   data[1] = value;
-  ret = HAL_I2C_Master_Transmit(tcs3472->i2c, tcs3472->address, data, 2, TCS3472_TIMEOUT);
-  if (ret != HAL_OK) {
-    xlog("%s:%d \n\r", __func__, __LINE__);
-  }
-  
+  ret = HAL_I2C_Master_Transmit(tcs3472->i2c, tcs3472->address, data, 2, TCS3472_TIMEOUT);  
   return ret;
 }

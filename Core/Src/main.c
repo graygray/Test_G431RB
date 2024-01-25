@@ -114,9 +114,13 @@ int main(void)
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
 
   // test TCS3472
-  TCS3472 tcs3472;
-  TCS3472_setup(&tcs3472, &hi2c1, TCS34725_I2C_ADDRESS);
-  TCS3472_enable(&tcs3472);
+  HALStatus = TCS3472_setup(&tcs3472, &hi2c1, TCS34725_I2C_ADDRESS);
+  if (HALStatus != HAL_OK) {
+    xlog("%s:%d, TCS3472 not ready \n\r", __func__, __LINE__);
+  } else {
+    xlog("%s:%d, TCS3472 ready \n\r", __func__, __LINE__);
+    TCS3472_enable(&tcs3472);
+  }
 
   /* USER CODE END 2 */
 

@@ -14,6 +14,7 @@
 
 #include "stm32g4xx.h"
 #include "stm32g431xx.h"
+#include "stm32g4xx_hal.h"
 #include "stm32g4xx_hal_gpio.h"
 #include "stm32g4xx_hal_uart.h"
 #include "stm32g4xx_hal_tim.h"
@@ -68,8 +69,9 @@ extern bool testBool;
 extern int testInt;
 extern int testCase;
 
+extern HAL_StatusTypeDef HALStatus;
+
 extern uint8_t rx_buff[12];
-extern TCS3472 tcs3472;
 
 void delay_us(uint32_t nus);
 void printInfo(void);

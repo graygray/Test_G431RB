@@ -27,6 +27,7 @@ typedef struct {
   I2C_HandleTypeDef* i2c;
   uint8_t address;
 } TCS3472;
+extern TCS3472 tcs3472;
 
 typedef struct {
   uint16_t r;

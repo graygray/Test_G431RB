@@ -7,9 +7,9 @@ int testInt = 0;
 int testCase = 1;
 
 GPIO_PinState testPinState = GPIO_PIN_RESET;
+HAL_StatusTypeDef HALStatus = HAL_ERROR;
 
 uint8_t rx_buff[12] = {0};
-TCS3472 tcs3472;
 
 #ifdef __GNUC__
 int __io_putchar(int ch)
@@ -51,19 +51,14 @@ void printInfo()
     if (testCase == 0)
     {
         xlog("%s:%d, SystemCoreClock:%ld \n\r", __func__, __LINE__, SystemCoreClock);
+        xlog("%s:%d, uwTick:%ld \n\r", __func__, __LINE__, uwTick);
 
     } else if (testCase == 1) {
         // 1. Color sensor TCS3472
         // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.
 
-        TCS3472 tcs3472;
-        uint8_t address = TCS34725_I2C_ADDRESS;
         TCS3472_Color colorData;
         memset(&colorData, 0, sizeof(TCS3472_Color));
-
-        TCS3472_setup(&tcs3472, &hi2c1, address);
-        TCS3472_enable(&tcs3472);
-
         TCS3472_readColor(&tcs3472, &colorData);
         xlog("%s:%d, r:%d, g:%d, b:%d, c:%d \n\r", __func__, __LINE__, colorData.r, colorData.g, colorData.b, colorData.c);
         float factor = colorData.c / 255.0;
