@@ -110,7 +110,13 @@ int main(void)
   // printInfo();
   toggleUserLED();
 
+  // test BH1750
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
+
+  // test TCS3472
+  TCS3472 tcs3472;
+  TCS3472_setup(&tcs3472, &hi2c1, TCS34725_I2C_ADDRESS);
+  TCS3472_enable(&tcs3472);
 
   /* USER CODE END 2 */
 
@@ -123,6 +129,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+    // test TCS3472
+    // TCS3472_readColor(&tcs3472, &colorData);
+    // xlog("%s:%d, r:%d, g:%d, b:%d, c:%d \n\r", __func__, __LINE__, colorData.r, colorData.g, colorData.b, colorData.c);
+    // float factor = colorData.c / 255.0;
+    // xlog("%s:%d, r:%.1f, g:%.1f, b:%.1f \n\r", __func__, __LINE__, colorData.r/factor, colorData.g/factor, colorData.b/factor);
+    // HAL_Delay(1000);
+
   }
   /* USER CODE END 3 */
 }

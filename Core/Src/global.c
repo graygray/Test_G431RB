@@ -9,6 +9,7 @@ int testCase = 1;
 GPIO_PinState testPinState = GPIO_PIN_RESET;
 
 uint8_t rx_buff[12] = {0};
+TCS3472 tcs3472;
 
 #ifdef __GNUC__
 int __io_putchar(int ch)
@@ -55,10 +56,18 @@ void printInfo()
         // 1. Color sensor TCS3472
         // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.
 
-        // uint16_t red, green, blue, clear;
-        // xlog("%s:%d, red:%d \n\r", __func__, __LINE__, red);
-        // xlog("%s:%d, green:%d \n\r", __func__, __LINE__, green);
-        // xlog("%s:%d, blue:%d \n\r", __func__, __LINE__, blue);
+        TCS3472 tcs3472;
+        uint8_t address = TCS34725_I2C_ADDRESS;
+        TCS3472_Color colorData;
+        memset(&colorData, 0, sizeof(TCS3472_Color));
+
+        TCS3472_setup(&tcs3472, &hi2c1, address);
+        TCS3472_enable(&tcs3472);
+
+        TCS3472_readColor(&tcs3472, &colorData);
+        xlog("%s:%d, r:%d, g:%d, b:%d, c:%d \n\r", __func__, __LINE__, colorData.r, colorData.g, colorData.b, colorData.c);
+        float factor = colorData.c / 255.0;
+        xlog("%s:%d, r:%.1f, g:%.1f, b:%.1f \n\r", __func__, __LINE__, colorData.r/factor, colorData.g/factor, colorData.b/factor);
 
     } else if (testCase == 2) {
         // 2. Brightness sensor BH1750

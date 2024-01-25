@@ -21,6 +21,7 @@
 #include "stm32g4xx_hal_i2c.h"
 
 #include "BH1750.h"
+#include "TCS3472.h"
 
 #endif
 
@@ -60,6 +61,7 @@ extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern ADC_HandleTypeDef hadc1;
+extern I2C_HandleTypeDef hi2c1;
 
 extern int testCounter;
 extern bool testBool;
@@ -67,6 +69,7 @@ extern int testInt;
 extern int testCase;
 
 extern uint8_t rx_buff[12];
+extern TCS3472 tcs3472;
 
 void delay_us(uint32_t nus);
 void printInfo(void);
@@ -77,3 +80,4 @@ void toggleUserLED(void);
 char* printMotorState(MCI_State_t);
 void printMotorError(uint16_t);
 #endif
+
