@@ -127,6 +127,7 @@ void printInfo()
 
     } else if (testCase == 8) {
         // 8. 中斷 Interrupt
+        // OK
 
     } else if (testCase == 9) {
         // 9. SPI 的應用 — RFID Reader
@@ -166,23 +167,20 @@ void printInfo()
         double end = 5.0;
         double out = 0.0;
 
-        do
-        {
-            out = logistic_sigmoid(begin, k);
-            xlog("%s:%d, input:%f, k:%f, r:%f \n\r", __func__, __LINE__, begin, k, out);
-            begin += 0.2;
+        do {
+          out = logistic_sigmoid(begin, k);
+          xlog("%s:%d, input:%f, k:%f, r:%f \n\r", __func__, __LINE__, begin, k, out);
+          begin += 0.2;
         } while (begin < end);
-        
     }
 
 }
 
-void setUserLED(LEDState state)
-{
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, (state == LED_On) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+void setUserLED(LEDState state) {
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, (state == LED_On) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
-void toggleUserLED(){
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+void toggleUserLED() {
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
 
 #ifdef MCSDK
