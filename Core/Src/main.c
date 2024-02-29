@@ -41,6 +41,8 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 
+FDCAN_HandleTypeDef hfdcan1;
+
 I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim1;
@@ -62,6 +64,7 @@ static void MX_ADC1_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_FDCAN1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -100,20 +103,22 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   MX_TIM1_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_TIM2_Init();
-  MX_USART2_UART_Init();
+  MX_FDCAN1_Init();
   /* USER CODE BEGIN 2 */
 
   // printInfo();
   toggleUserLED();
 
-  // test BH1750
+#if defined(TEST_BH1750)
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
+#endif // TEST_BH1750
 
-  // test TCS3472
+#if defined(TEST_TCS3472)
   HALStatus = TCS3472_setup(&tcs3472, &hi2c1, TCS34725_I2C_ADDRESS);
   if (HALStatus != HAL_OK) {
     xlog("%s:%d, TCS3472 not ready \n\r", __func__, __LINE__);
@@ -121,7 +126,11 @@ int main(void)
     xlog("%s:%d, TCS3472 ready \n\r", __func__, __LINE__);
     TCS3472_enable(&tcs3472);
   }
+#endif // TEST_TCS3472
 
+  configFDCAN();
+
+  xlog("%s:%d \n\r", __func__, __LINE__);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -256,6 +265,49 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief FDCAN1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_FDCAN1_Init(void)
+{
+
+  /* USER CODE BEGIN FDCAN1_Init 0 */
+
+  /* USER CODE END FDCAN1_Init 0 */
+
+  /* USER CODE BEGIN FDCAN1_Init 1 */
+
+  /* USER CODE END FDCAN1_Init 1 */
+  hfdcan1.Instance = FDCAN1;
+  hfdcan1.Init.ClockDivider = FDCAN_CLOCK_DIV1;
+  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+  hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
+  hfdcan1.Init.AutoRetransmission = ENABLE;
+  hfdcan1.Init.TransmitPause = ENABLE;
+  hfdcan1.Init.ProtocolException = DISABLE;
+  hfdcan1.Init.NominalPrescaler = 17;
+  hfdcan1.Init.NominalSyncJumpWidth = 1;
+  hfdcan1.Init.NominalTimeSeg1 = 16;
+  hfdcan1.Init.NominalTimeSeg2 = 3;
+  hfdcan1.Init.DataPrescaler = 1;
+  hfdcan1.Init.DataSyncJumpWidth = 4;
+  hfdcan1.Init.DataTimeSeg1 = 5;
+  hfdcan1.Init.DataTimeSeg2 = 4;
+  hfdcan1.Init.StdFiltersNbr = 1;
+  hfdcan1.Init.ExtFiltersNbr = 0;
+  hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
+  if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN FDCAN1_Init 2 */
+
+  /* USER CODE END FDCAN1_Init 2 */
 
 }
 
