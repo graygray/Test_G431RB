@@ -10,6 +10,9 @@
         "bh1750.h": "c",
         "TCS3472.h": "c",
         "stdbool.h": "c",
-        "stm32g4xx_hal_fdcan.h": "c"
+        "stm32g4xx_hal_fdcan.h": "c",
+        "stm32g4xx_hal_def.h": "c",
+        "stm32g4xx_hal.h": "c",
+        "stm32g4xx.h": "c"
     }
 }

@@ -112,7 +112,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // printInfo();
-  toggleUserLED();
+  // toggleUserLED();
 
 #if defined(TEST_BH1750)
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
@@ -130,25 +130,40 @@ int main(void)
 
   configFDCAN();
 
-  xlog("%s:%d \n\r", __func__, __LINE__);
+  xlog("%s:%d, init finish... \n\r", __func__, __LINE__);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // toggleUserLED();
-    // delay_us(20);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
+#if defined(TEST_CAN)
+    if (testCounter % 4 == 0) {
+      xlog("%s:%d ================ \n\r", __func__, __LINE__);
+      getFWVersion_8015d();
+    } else if (testCounter % 4 == 1) {
+      queryWheelSpeed_8015d(2);
+    } else if (testCounter % 4 == 2) {
+      getCurrent_8015d(0);
+    } else if (testCounter % 4 == 3) {
+      getCurrent_8015d(1);
+    }
+    testCounter++;
+    HAL_Delay(1);
+#endif // TEST_CAN
+
+#if defined(TEST_TCS3472)
     // test TCS3472
     // TCS3472_readColor(&tcs3472, &colorData);
     // xlog("%s:%d, r:%d, g:%d, b:%d, c:%d \n\r", __func__, __LINE__, colorData.r, colorData.g, colorData.b, colorData.c);
     // float factor = colorData.c / 255.0;
     // xlog("%s:%d, r:%.1f, g:%.1f, b:%.1f \n\r", __func__, __LINE__, colorData.r/factor, colorData.g/factor, colorData.b/factor);
     // HAL_Delay(1000);
+#endif // TEST_TCS3472
 
   }
   /* USER CODE END 3 */

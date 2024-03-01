@@ -12,6 +12,7 @@
 
 // #define TEST_BH1750
 // #define TEST_TCS3472
+// #define TEST_CAN
 
 #ifdef G431RB
 
@@ -92,3 +93,5 @@ void configFDCAN(void);
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs);
 uint8_t CAN1_Send(uint32_t id, uint8_t* msg);
 void getFWVersion_8015d();
+void queryWheelSpeed_8015d(uint8_t motorID);
+void getCurrent_8015d(uint8_t motorID) ;
