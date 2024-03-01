@@ -23,16 +23,6 @@ int fputc(int ch, FILE* stream) {
 }
 #endif
 
-/*
-for循环实现延时us
-*/
-void delay_us(uint32_t nus) {
-  uint32_t Delay = nus * 168 / 4;
-  do {
-    __NOP();
-  } while (Delay--);
-}
-
 // S-Curve, 定義邏輯斯諦函數，並加入斜率 k 的參數
 double logistic_sigmoid(double x, double k) {
   return 1.0 / (1.0 + exp(-k * (x - 0.0)));  // 這裡的 0.0 可以替換成中心位置 x_0
@@ -167,6 +157,9 @@ void printInfo() {
 
   } else if (testCase == 21) {
     getFWVersion_8015d();
+    queryWheelSpeed_8015d(2);
+    // getCurrent_8015d(0);
+    // getCurrent_8015d(1);
   }
 }
 
@@ -308,6 +301,8 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
       return;
     }
 
+    xlog("%s:%d \n\r", __func__, __LINE__, RxHeader.Identifier);
+
     xlog("0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x \n\r",
          RxBuffer[0],
          RxBuffer[1],
@@ -320,10 +315,8 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
   }
 }
 
-FDCAN_TxHeaderTypeDef TxHeader;
-
 uint8_t CAN1_Send(uint32_t id, uint8_t* msg) {
-
+  FDCAN_TxHeaderTypeDef TxHeader;
   /* Prepare Tx Header */
   TxHeader.Identifier = id;
   TxHeader.IdType = FDCAN_STANDARD_ID;
@@ -344,9 +337,18 @@ uint8_t CAN1_Send(uint32_t id, uint8_t* msg) {
   return 0;
 }
 
+uint32_t CanID_ZL8015D = 0x601;
 void getFWVersion_8015d() {
-  xlog("%s:%d \n\r", __func__, __LINE__);
-  uint32_t CanID_ZL8015D = 0x601;
   uint8_t data[8] = {0x40, 0x31, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00};
+  CAN1_Send(CanID_ZL8015D, data);
+}
+
+void queryWheelSpeed_8015d(uint8_t motorID) {
+  uint8_t data[8] = {0x43, 0x6C, 0x60, motorID + 1, 0x00, 0x00, 0x00, 0x00};
+  CAN1_Send(CanID_ZL8015D, data);
+}
+
+void getCurrent_8015d(uint8_t motorID) {
+  uint8_t data[8] = {0x40, 0x77, 0x60, motorID + 1, 0x00, 0x00, 0x00, 0x00};
   CAN1_Send(CanID_ZL8015D, data);
 }
