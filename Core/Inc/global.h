@@ -25,6 +25,7 @@
 #include "stm32g4xx_hal_adc.h"
 #include "stm32g4xx_hal_i2c.h"
 #include "stm32g4xx_hal_fdcan.h"
+#include "stm32g4xx_hal_pwr_ex.h"
 
 #include "BH1750.h"
 #include "TCS3472.h"

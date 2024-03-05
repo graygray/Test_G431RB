@@ -301,7 +301,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
       return;
     }
 
-    xlog("%s:%d \n\r", __func__, __LINE__, RxHeader.Identifier);
+    xlog("DataLength:0x%lx, Identifier:0x%lx, IdType:0x%lx, RxFrameType:0x%lx \n\r", RxHeader.DataLength , RxHeader.Identifier, RxHeader.IdType, RxHeader.RxFrameType);
 
     xlog("0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x \n\r",
          RxBuffer[0],
