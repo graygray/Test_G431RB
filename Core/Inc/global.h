@@ -6,6 +6,7 @@
 #include <math.h>
 
 // define for different project
+#define DEBUGX
 #define G431RB
 // #define F302R8
 // #define MCSDK
@@ -13,6 +14,7 @@
 // #define TEST_BH1750
 // #define TEST_TCS3472
 // #define TEST_CAN
+// #define USE_PS2
 
 #ifdef G431RB
 
@@ -29,25 +31,20 @@
 
 #include "BH1750.h"
 #include "TCS3472.h"
+#include "hal_extension.h"
 
 #endif
 
 #ifdef F302R8
-
 #include "stm32f3xx.h"
 #include "stm32f3xx_hal_gpio.h"
-
 #endif
 
 #ifdef MCSDK
-
 #include "mc_type.h"
 #include "mc_interface.h"
 #include "motorcontrol.h"
-
 #endif
-
-#define DEBUGX
 
 #ifndef DEBUGX
   #define xlog
@@ -70,29 +67,17 @@ extern TIM_HandleTypeDef htim2;
 extern ADC_HandleTypeDef hadc1;
 extern I2C_HandleTypeDef hi2c1;
 extern FDCAN_HandleTypeDef hfdcan1;
+extern HAL_StatusTypeDef HALStatus;
 
 extern int testCounter;
 extern bool testBool;
 extern int testInt;
 extern int testCase;
 
-extern HAL_StatusTypeDef HALStatus;
+// task flags
+extern bool task_PS2;
 
-extern uint8_t rx_buff[12];
-
-void delay_us(uint32_t nus);
 void printInfo(void);
 void setUserLED(LEDState);
 void toggleUserLED(void);
 
-#ifdef MCSDK
-char* printMotorState(MCI_State_t);
-void printMotorError(uint16_t);
-#endif
-
-void configFDCAN(void);
-void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs);
-uint8_t CAN1_Send(uint32_t id, uint8_t* msg);
-void getFWVersion_8015d();
-void queryWheelSpeed_8015d(uint8_t motorID);
-void getCurrent_8015d(uint8_t motorID) ;

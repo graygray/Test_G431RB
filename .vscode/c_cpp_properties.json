@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/Core/Inc/**",
+                "${workspaceFolder}/Drivers/STM32G4xx_HAL_Driver/Inc/**",
+                "${workspaceFolder}/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy/**",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32G4xx/Include/**",
+                "${workspaceFolder}/Drivers/CMSIS/Include/**",
+                "C:/cygwin64/usr/include/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "STM32G431xx",
+                "USE_HAL_DRIVER"
+            ],
+            "compilerPath": "C:\\cygwin64\\bin\\gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
