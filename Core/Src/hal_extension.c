@@ -96,6 +96,41 @@ uint8_t CAN1_Send(uint32_t id, uint8_t* msg) {
   return 0;
 }
 
+uint8_t CAN1_Sendx(uint32_t id, uint8_t* msg) {
+  FDCAN_TxHeaderTypeDef TxHeader;
+  /* Prepare Tx Header */
+  TxHeader.Identifier = id;
+  TxHeader.IdType = FDCAN_STANDARD_ID;
+  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+  TxHeader.DataLength = FDCAN_DLC_BYTES_8;
+  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+  TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+  TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+  TxHeader.MessageMarker = 0;
+
+  // ??
+  // if (HAL_FDCAN_GetState(&hfdcan1) != HAL_FDCAN_STATE_READY) {
+  //   xlog("%s:%d, HAL_FDCAN_GetState not Ready \n\r", __func__, __LINE__);
+  //   return 0;
+  // }
+
+  uint32_t freeSlots = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
+  if (freeSlots == 0)
+  {
+    xlog("%s:%d, TxFifo Queue full \n\r", __func__, __LINE__);
+    HAL_Delay(1);
+  }
+  
+  /* Start the Transmission process */
+  if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, msg) != HAL_OK) {
+    /* Transmission request Error */
+    xlog("%s:%d, HAL_FDCAN_AddMessageToTxFifoQ error \n\r", __func__, __LINE__);
+  }
+
+  return 0;
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
   if (GPIO_Pin == USER_BUTTON_Pin) {

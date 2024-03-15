@@ -31,13 +31,18 @@ double logistic_sigmoid(double x, double k) {
 void printInfo() {
   xlog("%s:%d, ========================== %d\n\r", __func__, __LINE__, testCounter++);
 
-  testCase = 3;
+  testCase = 0;
   if (testCase == 0) {
     xlog("%s:%d, SystemCoreClock:%ld \n\r", __func__, __LINE__, SystemCoreClock);
     xlog("%s:%d, uwTick:%ld \n\r", __func__, __LINE__, uwTick);
 
-  } else if (testCase == 1) {
+    xlog("%s:%d, Flash Image : DATE:%s, TIME:%s \n\r", __func__, __LINE__, __DATE__, __TIME__);
 
+    uint32_t freeSlots = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
+    xlog("%s:%d, freeSlots:%d \n\r", __func__, __LINE__, freeSlots);
+    // getFWVersion();
+
+  } else if (testCase == 1) {
     // 1. Color sensor TCS3472
     // >> 將 color sensor 的 RGB 與 clear 值讀出，顯示於 LCD 上.
 #if defined(TEST_TCS3472)
@@ -51,7 +56,6 @@ void printInfo() {
 #endif  // TEST_TCS3472
 
   } else if (testCase == 2) {
-
     // 2. Brightness sensor BH1750
     // >> 將 brightness 的 lux 值讀出，顯示於 LCD 上.
 #if defined(TEST_BH1750)
@@ -156,10 +160,7 @@ void printInfo() {
     } while (begin < end);
 
   } else if (testCase == 21) {
-//    getFWVersion_8015d();
-//    queryWheelSpeed_8015d(2);
-    // getCurrent_8015d(0);
-    // getCurrent_8015d(1);
+    //
   }
 }
 

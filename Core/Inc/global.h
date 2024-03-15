@@ -32,6 +32,7 @@
 #include "BH1750.h"
 #include "TCS3472.h"
 #include "hal_extension.h"
+#include "zlac8015d.h"
 
 #endif
 

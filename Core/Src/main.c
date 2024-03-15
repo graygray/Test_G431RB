@@ -149,18 +149,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 #if defined(TEST_CAN)
-    if (testCounter % 4 == 0) {
-      xlog("%s:%d ================ \n\r", __func__, __LINE__);
-      getFWVersion_8015d();
-    } else if (testCounter % 4 == 1) {
-      queryWheelSpeed_8015d(2);
-    } else if (testCounter % 4 == 2) {
-      getCurrent_8015d(0);
-    } else if (testCounter % 4 == 3) {
-      getCurrent_8015d(1);
-    }
-    testCounter++;
-    HAL_Delay(1);
+    getFWVersion();
+    // HAL_Delay(1);
 #endif // TEST_CAN
 
 #if defined(TEST_TCS3472)

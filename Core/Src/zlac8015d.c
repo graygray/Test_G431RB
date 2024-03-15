@@ -114,8 +114,8 @@ void getCurrent(uint8_t motorID) {
 
 void getFWVersion() {
   uint8_t data[8] = {0x40, 0x31, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00};
-   CAN1_Send(CanID_ZL8015D, data);
-//  CAN1_Send_Num_NoDelay(CanID_ZL8015D, data);
+  // CAN1_Send(CanID_ZL8015D, data);
+  CAN1_Sendx(CanID_ZL8015D, data);
 }
 
 void getEncoder(uint8_t motorID) {
