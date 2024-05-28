@@ -6,6 +6,8 @@
 
 #define DELAY_TIME  delay_us(2); 
 
+bool isPrintPSLog = false;
+
 int16_t targetSpeed = 5;
 uint8_t targetSpeedStep = 1;
 float_t targetSpeedMS = 0.05;
@@ -523,10 +525,10 @@ void PS2_control(void) {
   } else if (PS2_KEY == PSB_CIRCLE) {
     // just print info
     xlog("Speed:%.1f meter/s (%d rpm), Step:%.1f \n\r", targetSpeedMS, targetSpeed, targetSpeedStepMS);
-    if (isPrintLog) {
-      isPrintLog = false;
+    if (isPrintPSLog) {
+      isPrintPSLog = false;
     } else {
-      isPrintLog = true;
+      isPrintPSLog = true;
     }
 
   } else if (PS2_KEY == PSB_R1) {
@@ -572,7 +574,7 @@ void PS2_control(void) {
   if (PS2_LY < rocker_center - (rocker_center * 0.1)) {
     if ((rocker_op_last != Rocker_OP_MF) || isParamChanged) {
       xlog(">>>>>>>>>> Move Forward, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
-      isPrintLog = true;
+      isPrintPSLog = true;
       setTargetSpeed_sync(-targetSpeed, -targetSpeed);
     }
     rocker_op_last = Rocker_OP_MF;
@@ -580,7 +582,7 @@ void PS2_control(void) {
   } else if (PS2_LY > rocker_center + (rocker_center * 0.1)) {
     if ((rocker_op_last != Rocker_OP_MB) || isParamChanged) {
       xlog(">>>>>>>>>> Move Backward, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
-      isPrintLog = true;
+      isPrintPSLog = true;
       setTargetSpeed_sync(targetSpeed, targetSpeed);
     }
     rocker_op_last = Rocker_OP_MB;
@@ -589,21 +591,21 @@ void PS2_control(void) {
     if (PS2_RX < rocker_center - (rocker_center * 0.1)) {
       if ((rocker_op_last != Rocker_OP_RL) || isParamChanged) {
         xlog(">>>>>>>>>> Rotate Left, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
-        isPrintLog = true;
+        isPrintPSLog = true;
         setTargetSpeed_sync(-targetSpeed, targetSpeed);
       }
       rocker_op_last = Rocker_OP_RL;
     } else if (PS2_RX > rocker_center + (rocker_center * 0.1)) {
       if ((rocker_op_last != Rocker_OP_RR) || isParamChanged) {
         xlog(">>>>>>>>>> Rotate Right, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
-        isPrintLog = true;
+        isPrintPSLog = true;
         setTargetSpeed_sync(targetSpeed, -targetSpeed);
       }
       rocker_op_last = Rocker_OP_RR;
     } else {
       if ((rocker_op_last != Rocker_OP_NA)) {
         xlog(">>>>>>>>>> Speed Zero \n\r");
-        isPrintLog = false;
+        isPrintPSLog = false;
         setTargetSpeed_sync(0, 0);
       }
       rocker_op_last = Rocker_OP_NA;

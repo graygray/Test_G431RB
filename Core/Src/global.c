@@ -39,7 +39,7 @@ void printInfo() {
     xlog("%s:%d, Flash Image : DATE:%s, TIME:%s \n\r", __func__, __LINE__, __DATE__, __TIME__);
 
     uint32_t freeSlots = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
-    xlog("%s:%d, freeSlots:%d \n\r", __func__, __LINE__, freeSlots);
+    xlog("%s:%d, freeSlots:%ld \n\r", __func__, __LINE__, freeSlots);
     getFWVersion();
 
   } else if (testCase == 1) {
