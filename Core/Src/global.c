@@ -40,7 +40,7 @@ void printInfo() {
 
     uint32_t freeSlots = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
     xlog("%s:%d, freeSlots:%d \n\r", __func__, __LINE__, freeSlots);
-    // getFWVersion();
+    getFWVersion();
 
   } else if (testCase == 1) {
     // 1. Color sensor TCS3472

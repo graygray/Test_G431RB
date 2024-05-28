@@ -54,15 +54,15 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
 
     // xlog("DataLength:0x%lx, Identifier:0x%lx, IdType:0x%lx, RxFrameType:0x%lx \n\r", RxHeader.DataLength , RxHeader.Identifier, RxHeader.IdType, RxHeader.RxFrameType);
 
-    // xlog("0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x \n\r",
-    //      RxBuffer[0],
-    //      RxBuffer[1],
-    //      RxBuffer[2],
-    //      RxBuffer[3],
-    //      RxBuffer[4],
-    //      RxBuffer[5],
-    //      RxBuffer[6],
-    //      RxBuffer[7]);
+    xlog("0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x \n\r",
+         RxBuffer[0],
+         RxBuffer[1],
+         RxBuffer[2],
+         RxBuffer[3],
+         RxBuffer[4],
+         RxBuffer[5],
+         RxBuffer[6],
+         RxBuffer[7]);
   }
 }
 

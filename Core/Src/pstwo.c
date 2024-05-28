@@ -522,7 +522,13 @@ void PS2_control(void) {
     updateTargetSpeedStep();
   } else if (PS2_KEY == PSB_CIRCLE) {
     // just print info
-    xlog("Set Speed:%.1f meter/s (%d rpm), Step:%.1f \n\r", targetSpeedMS, targetSpeed, targetSpeedStepMS);
+    xlog("Speed:%.1f meter/s (%d rpm), Step:%.1f \n\r", targetSpeedMS, targetSpeed, targetSpeedStepMS);
+    if (isPrintLog) {
+      isPrintLog = false;
+    } else {
+      isPrintLog = true;
+    }
+
   } else if (PS2_KEY == PSB_R1) {
     xlog("Stop Machine \n\r");
 //    task_stopMotor = true;
@@ -565,14 +571,16 @@ void PS2_control(void) {
   // left rocker
   if (PS2_LY < rocker_center - (rocker_center * 0.1)) {
     if ((rocker_op_last != Rocker_OP_MF) || isParamChanged) {
-      xlog("Move Forward \n\r");
+      xlog(">>>>>>>>>> Move Forward, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
+      isPrintLog = true;
       setTargetSpeed_sync(-targetSpeed, -targetSpeed);
     }
     rocker_op_last = Rocker_OP_MF;
 
   } else if (PS2_LY > rocker_center + (rocker_center * 0.1)) {
     if ((rocker_op_last != Rocker_OP_MB) || isParamChanged) {
-      xlog("Move Backward \n\r");
+      xlog(">>>>>>>>>> Move Backward, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
+      isPrintLog = true;
       setTargetSpeed_sync(targetSpeed, targetSpeed);
     }
     rocker_op_last = Rocker_OP_MB;
@@ -580,19 +588,22 @@ void PS2_control(void) {
   	// right rocker
     if (PS2_RX < rocker_center - (rocker_center * 0.1)) {
       if ((rocker_op_last != Rocker_OP_RL) || isParamChanged) {
-        xlog("Rotate Left \n\r");
+        xlog(">>>>>>>>>> Rotate Left, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
+        isPrintLog = true;
         setTargetSpeed_sync(-targetSpeed, targetSpeed);
       }
       rocker_op_last = Rocker_OP_RL;
     } else if (PS2_RX > rocker_center + (rocker_center * 0.1)) {
       if ((rocker_op_last != Rocker_OP_RR) || isParamChanged) {
-        xlog("Rotate Right \n\r");
+        xlog(">>>>>>>>>> Rotate Right, Speed:%.1f meter/s (%d rpm) \n\r", targetSpeedMS, targetSpeed);
+        isPrintLog = true;
         setTargetSpeed_sync(targetSpeed, -targetSpeed);
       }
       rocker_op_last = Rocker_OP_RR;
     } else {
       if ((rocker_op_last != Rocker_OP_NA)) {
-        xlog("Speed Zero \n\r");
+        xlog(">>>>>>>>>> Speed Zero \n\r");
+        isPrintLog = false;
         setTargetSpeed_sync(0, 0);
       }
       rocker_op_last = Rocker_OP_NA;
