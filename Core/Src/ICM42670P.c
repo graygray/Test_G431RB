@@ -14,10 +14,10 @@ uint16_t accelSensitivity = 2048;               // default
 float gyroSensitivity = 16.4;                   // default
 
 // quaternion
-volatile float twoKp = 1.0f;                                                                    // 2 * proportional gain (Kp)
-volatile float twoKi = 0.0f;                                                                    // 2 * integral gain (Ki)
-__IO float icm42760p_q0 = 1.0f, icm42760p_q1 = 0.0f, icm42760p_q2 = 0.0f, icm42760p_q3 = 0.0f;  // quaternion of sensor frame relative to auxiliary frame
-volatile float integralFBx = 0.0f, integralFBy = 0.0f, integralFBz = 0.0f;                      // integral error terms scaled by Ki
+volatile float twoKp = 1.0f;                                                                        // 2 * proportional gain (Kp)
+volatile float twoKi = 0.0f;                                                                        // 2 * integral gain (Ki)
+volatile float icm42760p_q0 = 1.0f, icm42760p_q1 = 0.0f, icm42760p_q2 = 0.0f, icm42760p_q3 = 0.0f;  // quaternion of sensor frame relative to auxiliary frame
+volatile float integralFBx = 0.0f, integralFBy = 0.0f, integralFBz = 0.0f;                          // integral error terms scaled by Ki
 
 void resetI2C() {
     HAL_I2C_DeInit(&hi2c1);

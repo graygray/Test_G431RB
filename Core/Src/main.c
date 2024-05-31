@@ -178,10 +178,8 @@ int main(void)
     // ICM42670P_ReadAccelMultiple();
     // ICM42670P_ReadGyro();
     // ICM42670P_ReadGyroMultiple();
-    toggleUserLED();
     ICM42670P_ReadAccelGyro();
     ICM42670P_QuaternionSolution();
-    toggleUserLED();
     HAL_Delay(50);
 
 #endif  // TEST_ICM42670P
