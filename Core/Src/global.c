@@ -31,16 +31,22 @@ double logistic_sigmoid(double x, double k) {
 void printInfo() {
   xlog("%s:%d, ========================== %d\n\r", __func__, __LINE__, testCounter++);
 
-  testCase = 0;
+  // testCase = 21;
   if (testCase == 0) {
     xlog("%s:%d, SystemCoreClock:%ld \n\r", __func__, __LINE__, SystemCoreClock);
     xlog("%s:%d, uwTick:%ld \n\r", __func__, __LINE__, uwTick);
-
     xlog("%s:%d, Flash Image : DATE:%s, TIME:%s \n\r", __func__, __LINE__, __DATE__, __TIME__);
 
-    uint32_t freeSlots = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
-    xlog("%s:%d, freeSlots:%ld \n\r", __func__, __LINE__, freeSlots);
-    getFWVersion();
+  } else if (testCase == 21) {
+    ICM42670P_WhoAmI();
+    ICM42670P_ReadPWRMGMT0();
+    // ICM42670P_WritePWRMGMT0();
+    ICM42670P_ReadAccelConfig();
+    ICM42670P_ReadGyroConfig();
+    ICM42670P_ReadWOM();
+    // ICM42670P_WriteWOM();
+    xlog("%s:%d ICM42670P_GYRO_RATIO:%f\n\r", __func__, __LINE__, ICM42670P_GYRO_RATIO);
+    xlog("%s:%d ICM42670P_ACCEL_RATIO:%f\n\r", __func__, __LINE__, ICM42670P_ACCEL_RATIO);
 
   } else if (testCase == 1) {
     // 1. Color sensor TCS3472
@@ -159,8 +165,6 @@ void printInfo() {
       begin += 0.2;
     } while (begin < end);
 
-  } else if (testCase == 21) {
-    //
   }
 }
 

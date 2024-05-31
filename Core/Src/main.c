@@ -105,8 +105,8 @@ int main(void)
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_TIM2_Init();
-  MX_FDCAN1_Init();
   MX_USART2_UART_Init();
+  MX_FDCAN1_Init();
   /* USER CODE BEGIN 2 */
 
   // printInfo();
@@ -114,7 +114,7 @@ int main(void)
 
 #if defined(TEST_BH1750)
   BH1750_Init(CONT_HI_RES, ADDR_0V, &hi2c1);
-#endif // TEST_BH1750
+#endif  // TEST_BH1750
 
 #if defined(TEST_TCS3472)
   HALStatus = TCS3472_setup(&tcs3472, &hi2c1, TCS34725_I2C_ADDRESS);
@@ -124,11 +124,16 @@ int main(void)
     xlog("%s:%d, TCS3472 ready \n\r", __func__, __LINE__);
     TCS3472_enable(&tcs3472);
   }
-#endif // TEST_TCS3472
+#endif  // TEST_TCS3472
+
+#if defined(TEST_ICM42670P)
+  ICM42670P_Init();
+#endif  // TEST_ICM42670P
 
   ConfigFDCAN();
 
   xlog("%s:%d, init finish... \n\r", __func__, __LINE__);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -163,6 +168,23 @@ int main(void)
     // HAL_Delay(1000);
 #endif // TEST_TCS3472
 
+#if defined(TEST_ICM42670P)
+
+    // xlog("%s:%d ========================\n\r", __func__, __LINE__);
+    // ICM42670P_WhoAmI();
+    // ICM42670P_ReadTemperature();
+    // ICM42670P_ReadTemperatureMultiple();
+    // ICM42670P_ReadAccel();
+    // ICM42670P_ReadAccelMultiple();
+    // ICM42670P_ReadGyro();
+    // ICM42670P_ReadGyroMultiple();
+    toggleUserLED();
+    ICM42670P_ReadAccelGyro();
+    ICM42670P_QuaternionSolution();
+    toggleUserLED();
+    HAL_Delay(50);
+
+#endif  // TEST_ICM42670P
   }
   /* USER CODE END 3 */
 }

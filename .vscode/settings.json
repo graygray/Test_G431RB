@@ -15,6 +15,9 @@
         "stm32g4xx_hal.h": "c",
         "stm32g4xx.h": "c",
         "stm32_hal_legacy.h": "c",
-        "hal_extension.h": "c"
+        "hal_extension.h": "c",
+        "compare": "c",
+        "limits": "c",
+        "new": "c"
     }
 }

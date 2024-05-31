@@ -15,6 +15,7 @@
 // #define TEST_TCS3472
 // #define TEST_CAN
 // #define USE_PS2
+#define TEST_ICM42670P
 
 #ifdef G431RB
 
@@ -33,6 +34,7 @@
 #include "TCS3472.h"
 #include "hal_extension.h"
 #include "zlac8015d.h"
+#include "ICM42670P.h"
 
 #endif
 
