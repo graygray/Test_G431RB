@@ -3,6 +3,8 @@
 __IO bool isHALError = false;
 __IO SensorRawXYZ icm42760p_accel = { 0 };        // default ± 16 g
 __IO SensorRawXYZ icm42760p_gyro = { 0 };         // default ± 2000 dps
+__IO SensorRawXYZ icm42760p_accelBias = { 0 }; 
+__IO SensorRawXYZ icm42760p_gyroBias = { 0 }; 
 __IO SensorFloatXYZ icm42760p_accels = { 0 };
 __IO SensorFloatXYZ icm42760p_gyros = { 0 };
 __IO float icm42760p_temperature = 0;
@@ -53,6 +55,11 @@ void ICM42670P_Init() {
   ICM42670P_ConfigAccel();
   ICM42670P_ConfigGyro();
   ICM42670P_WritePWRMGMT0();
+
+#if defined(ICM42670P_USE_BIAS)
+  ICM42670P_CalibrateAccelBias();
+  ICM42670P_CalibrateGyroBias();
+#endif  // ICM42670P_USE_BIAS
 }
 
 void ICM42670P_WhoAmI() {
@@ -147,7 +154,7 @@ void ICM42670P_ReadAccel() {
   icm42760p_accel.z = ((data[1] << 8) | data[0]);
 
 #if defined(ICM42670P_DEBUG)
-  xlog("%s:%d, Accel x:%d, y:%d, z:%d \n\r", __func__, __LINE__,
+  xlog("Accel [%05d:%05d:%05d] \n\r",
        icm42760p_accel.x, icm42760p_accel.y, icm42760p_accel.z);
 #endif  // ICM42670P_DEBUG
 }
@@ -165,9 +172,32 @@ void ICM42670P_ReadAccelMultiple() {
   icm42760p_accel.z = ((data[4] << 8) | data[5]);
 
 #if defined(ICM42670P_DEBUG)
-  xlog("%s:%d, Accel x:%d, y:%d, z:%d \n\r", __func__, __LINE__,
+  xlog("Accel [%05d:%05d:%05d] \n\r",
        icm42760p_accel.x, icm42760p_accel.y, icm42760p_accel.z);
 #endif  // ICM42670P_DEBUG
+}
+
+void ICM42670P_CalibrateAccelBias() {
+    int32_t sum_x = 0, sum_y = 0, sum_z = 0;
+
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        ICM42670P_ReadAccelMultiple();
+        sum_x += (int16_t)icm42760p_accel.x;
+        sum_y += (int16_t)icm42760p_accel.y;
+        sum_z += (int16_t)icm42760p_accel.z;
+        HAL_Delay(1);
+    }
+
+    xlog("[%ld:%ld:%ld] \n\r", sum_x, sum_y, sum_z);
+    icm42760p_accelBias.x = (int16_t)(sum_x / (float)NUM_SAMPLES);
+    icm42760p_accelBias.y = (int16_t)(sum_y / (float)NUM_SAMPLES);
+    icm42760p_accelBias.z = (int16_t)(sum_z / (float)NUM_SAMPLES);
+
+#if defined(ICM42670P_DEBUG)
+  xlog("AccelBias [%05d:%05d:%05d]\n\r",
+       icm42760p_accelBias.x, icm42760p_accelBias.y, icm42760p_accelBias.z);
+#endif  // ICM42670P_DEBUG
+
 }
 
 void ICM42670P_ReadGyroConfig() {
@@ -216,7 +246,7 @@ void ICM42670P_ReadGyro() {
   icm42760p_gyro.z = ((data[1] << 8) | data[0]);
 
 #if defined(ICM42670P_DEBUG)
-  xlog("%s:%d, Gyro x:%d, y:%d, z:%d \n\r", __func__, __LINE__,
+  xlog("Gyro [%05d:%05d:%05d] \n\r",
        icm42760p_gyro.x, icm42760p_gyro.y, icm42760p_gyro.z);
 #endif  // ICM42670P_DEBUG
 }
@@ -234,9 +264,33 @@ void ICM42670P_ReadGyroMultiple() {
   icm42760p_gyro.z = ((data[4] << 8) | data[5]);
 
 #if defined(ICM42670P_DEBUG)
-  xlog("%s:%d, Gyro x:%d, y:%d, z:%d \n\r", __func__, __LINE__,
+  xlog("Gyro [%05d:%05d:%05d] \n\r",
        icm42760p_gyro.x, icm42760p_gyro.y, icm42760p_gyro.z);
 #endif  // ICM42670P_DEBUG
+}
+
+void ICM42670P_CalibrateGyroBias() {
+    int32_t sum_x = 0, sum_y = 0, sum_z = 0;
+
+    for (int i = 0; i < NUM_SAMPLES; i++) {
+        ICM42670P_ReadGyroMultiple();
+        sum_x += (int16_t)icm42760p_gyro.x;
+        sum_y += (int16_t)icm42760p_gyro.y;
+        sum_z += (int16_t)icm42760p_gyro.z;
+        HAL_Delay(1);
+    }
+
+    xlog("[%ld:%ld:%ld] \n\r", sum_x, sum_y, sum_z);
+    icm42760p_gyroBias.x = (int16_t)(sum_x / (float)NUM_SAMPLES);
+    icm42760p_gyroBias.y = (int16_t)(sum_y / (float)NUM_SAMPLES);
+    icm42760p_gyroBias.z = (int16_t)(sum_z / (float)NUM_SAMPLES);
+
+
+#if defined(ICM42670P_DEBUG)
+  xlog("GyroBias [%05d:%05d:%05d]\n\r",
+       icm42760p_gyroBias.x, icm42760p_gyroBias.y, icm42760p_gyroBias.z);
+#endif  // ICM42670P_DEBUG
+
 }
 
 void ICM42670P_ReadAccelGyro() {
@@ -253,6 +307,15 @@ void ICM42670P_ReadAccelGyro() {
   icm42760p_gyro.x = ((data[6] << 8) | data[7]);
   icm42760p_gyro.y = ((data[8] << 8) | data[9]);
   icm42760p_gyro.z = ((data[10] << 8) | data[11]);
+
+#if defined(ICM42670P_USE_BIAS)
+  icm42760p_accel.x -= icm42760p_accelBias.x;
+  icm42760p_accel.y -= icm42760p_accelBias.y;
+  icm42760p_accel.z -= icm42760p_accelBias.z;
+  icm42760p_gyro.x -= icm42760p_gyroBias.x;
+  icm42760p_gyro.y -= icm42760p_gyroBias.y;
+  icm42760p_gyro.z -= icm42760p_gyroBias.z;
+#endif  // ICM42670P_USE_BIAS
 
 #if defined(ICM42670P_DEBUG)
   xlog("Accel [%05d:%05d:%05d], Gyro [%05d:%05d:%05d]\n\r",

@@ -3,6 +3,7 @@
 #include "global.h"
 
 #define ICM42670P_DEBUG
+// #define ICM42670P_USE_BIAS
 
 #define AD0_HIGH
 #if defined(AD0_HIGH)
@@ -76,6 +77,10 @@
 // ??
 #define SAMPLING_FREQ                   17.1715f // 采样频率
 
+// calibration
+#define NUM_SAMPLES     1000
+#define GRAVITY         16384   // Assuming the accelerometer output is scaled such that 1g = 16384 (for ±2g range)
+
 typedef struct {
   uint16_t x;
   uint16_t y;
@@ -108,10 +113,13 @@ void ICM42670P_ReadAccelConfig();
 void ICM42670P_ConfigAccel();
 void ICM42670P_ReadAccel();
 void ICM42670P_ReadAccelMultiple();
+void ICM42670P_CalibrateAccelBias();
 void ICM42670P_ReadGyroConfig();
 void ICM42670P_ConfigGyro();
 void ICM42670P_ReadGyro();
 void ICM42670P_ReadGyroMultiple();
+void ICM42670P_CalibrateGyroBias();
+
 void ICM42670P_ReadAccelGyro();
 
 void ICM42670P_EnableSoftwareReset();
