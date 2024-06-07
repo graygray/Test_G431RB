@@ -38,15 +38,15 @@ void printInfo() {
     xlog("%s:%d, Flash Image : DATE:%s, TIME:%s \n\r", __func__, __LINE__, __DATE__, __TIME__);
 
   } else if (testCase == 21) {
-    ICM42670P_WhoAmI();
-    ICM42670P_ReadPWRMGMT0();
-    // ICM42670P_WritePWRMGMT0();
-    ICM42670P_ReadAccelConfig();
-    ICM42670P_ReadGyroConfig();
-    ICM42670P_ReadWOM();
-    // ICM42670P_WriteWOM();
-    xlog("%s:%d ICM42670P_GYRO_RATIO:%f\n\r", __func__, __LINE__, ICM42670P_GYRO_RATIO);
-    xlog("%s:%d ICM42670P_ACCEL_RATIO:%f\n\r", __func__, __LINE__, ICM42670P_ACCEL_RATIO);
+    ICM42607x_WhoAmI();
+    ICM42607x_ReadPWRMGMT0();
+    // ICM42607x_WritePWRMGMT0();
+    ICM42607x_ReadAccelConfig();
+    ICM42607x_ReadGyroConfig();
+    ICM42607x_ReadWOM();
+    // ICM42607x_WriteWOM();
+    xlog("%s:%d ICM42607x_GYRO_RATIO:%f\n\r", __func__, __LINE__, ICM42607x_GYRO_RATIO);
+    xlog("%s:%d ICM42607x_ACCEL_RATIO:%f\n\r", __func__, __LINE__, ICM42607x_ACCEL_RATIO);
 
   } else if (testCase == 1) {
     // 1. Color sensor TCS3472

@@ -126,9 +126,9 @@ int main(void)
   }
 #endif  // TEST_TCS3472
 
-#if defined(TEST_ICM42670P)
-  ICM42670P_Init();
-#endif  // TEST_ICM42670P
+#if defined(TEST_ICM42607x)
+  ICM42607x_Init();
+#endif  // TEST_ICM42607x
 
   ConfigFDCAN();
 
@@ -168,21 +168,21 @@ int main(void)
     // HAL_Delay(1000);
 #endif // TEST_TCS3472
 
-#if defined(TEST_ICM42670P)
+#if defined(TEST_ICM42607x)
 
     // xlog("%s:%d ========================\n\r", __func__, __LINE__);
-    // ICM42670P_WhoAmI();
-    // ICM42670P_ReadTemperature();
-    // ICM42670P_ReadTemperatureMultiple();
-    // ICM42670P_ReadAccel();
-    // ICM42670P_ReadAccelMultiple();
-    // ICM42670P_ReadGyro();
-    // ICM42670P_ReadGyroMultiple();
-    ICM42670P_ReadAccelGyro();
-    ICM42670P_QuaternionSolution();
+    // ICM42607x_WhoAmI();
+    // ICM42607x_ReadTemperature();
+    // ICM42607x_ReadTemperatureMultiple();
+    // ICM42607x_ReadAccel();
+    // ICM42607x_ReadAccelMultiple();
+    // ICM42607x_ReadGyro();
+    // ICM42607x_ReadGyroMultiple();
+    ICM42607x_ReadAccelGyro();
+    ICM42607x_QuaternionSolution();
     HAL_Delay(50);
 
-#endif  // TEST_ICM42670P
+#endif  // TEST_ICM42607x
   }
   /* USER CODE END 3 */
 }
